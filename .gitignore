@@ -37,4 +37,4 @@ msbuild.wrn
 .vs/
 
 #DOCKER
-.docker/mysql/
+.docker/mysql/*
