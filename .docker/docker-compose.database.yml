@@ -1,0 +1,20 @@
+version: '3.9'
+
+networks:
+  global-docker-net:
+    external: true
+  
+services:
+  db:
+    image: mysql:latest
+    container_name: onquete-api-mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=onquete
+    networks:
+      - global-docker-net
