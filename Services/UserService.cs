@@ -20,7 +20,7 @@ public class UserService
   }
 
   //Methods
-  public async Task<ActionResult<List<User>>> GetAll()
+  public async Task<List<User>> GetAll()
   {
     return await ctx.users.ToListAsync();
   }
