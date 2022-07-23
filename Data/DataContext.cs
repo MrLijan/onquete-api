@@ -8,5 +8,6 @@ namespace OnqueteApi.Data
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
     public DbSet<User> users { get; set; }
-  }
+    public DbSet<Survey> surveys { get; set; }
+    }
 }
