@@ -5,6 +5,17 @@ networks:
     external: true
   
 services:
+  dotnet:
+    build: ./dotnet 
+    container_name: onquete-api-app
+    ports:
+      - 5500:5500
+    command: tail -F anything
+    volumes:
+      - ../:/app
+    networks:
+      - global-docker-net
+
   db:
     image: mysql:latest
     container_name: onquete-api-mysql
