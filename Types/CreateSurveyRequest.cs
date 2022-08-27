@@ -14,4 +14,6 @@ public class CreateSurveyRequest
 
     [Required]
     public int AuthorId { get; set; }
+
+    public List<Question> Questions { get; set; }
 }

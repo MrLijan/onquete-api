@@ -11,12 +11,14 @@ public class SurveyService
     // Const
     private readonly DataContext _ctx;
     private readonly ILogger<SurveyService> _logger;
+    private readonly QuestionService _question;
 
     // Constructor
-    public SurveyService(DataContext dataContext, ILogger<SurveyService> logger)
+    public SurveyService(DataContext dataContext, ILogger<SurveyService> logger, QuestionService question)
     {
         _ctx = dataContext;
         _logger = logger;
+        _question = question;
     }
 
     //Methods
@@ -37,13 +39,23 @@ public class SurveyService
             Uuid = this.newGuid(),
             Title = survey.Title,
             Description = survey.Description,
-            AuthorId = survey.AuthorId
+            AuthorId = survey.AuthorId,
         };
-
+        
         var action = _ctx.surveys.Add(newSurvey);
         await _ctx.SaveChangesAsync();
 
-        return await this.GetByUuid(newSurvey.Uuid);
+        newSurvey = await this.GetByUuid(newSurvey.Uuid);
+
+        foreach (var question in survey.Questions)
+        {
+            question.SurveyId = newSurvey.Id;
+            this._question.Create(question);
+        }
+
+
+
+        return newSurvey;
     }
 
     private Guid newGuid()

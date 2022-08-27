@@ -20,30 +20,31 @@ public class QuestionService
     }
 
     //Methods
-    public async Task<List<Survey>> ListAll()
+    public async Task<List<Question>> ListAll()
     {
-        return await _ctx.surveys.ToListAsync();
+        return await _ctx.questions.ToListAsync();
     }
 
-    public async Task<Survey?> GetByUuid(Guid uuid)
+    public async Task<Question?> GetByUuid(Guid uuid)
     {
-        return await _ctx.surveys.FirstOrDefaultAsync(s => s.Uuid == uuid);
+        return await _ctx.questions.FirstOrDefaultAsync(s => s.Uuid == uuid);
     }
 
-    public async Task<Survey?> Create(CreateSurveyRequest survey)
+    public async Task<Question?> Create(Question question)
     {
-        Survey newSurvey = new Survey()
+        Question newQuestion = new Question()
         {
             Uuid = this.newGuid(),
-            Title = survey.Title,
-            Description = survey.Description,
-            AuthorId = survey.AuthorId
+            Title = question.Title,
+            Description = question.Description,
+            QuestionType = question.QuestionType,
+            SurveyId = question.SurveyId
         };
 
-        var action = _ctx.surveys.Add(newSurvey);
+        var action = _ctx.questions.Add(newQuestion);
         await _ctx.SaveChangesAsync();
 
-        return await this.GetByUuid(newSurvey.Uuid);
+        return await this.GetByUuid(newQuestion.Uuid);
     }
 
     private Guid newGuid()

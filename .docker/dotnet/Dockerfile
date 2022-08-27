@@ -1,39 +1,25 @@
-# BUILD
-# FROM mcr.microsoft.com/dotnet/runtime:6.0-focal AS BUILD
+FROM mcr.microsoft.com/dotnet.aspnet:6.0 AS base
 
-# WORKDIR /source
-# COPY . .
-
-# RUN dotnet restore "./OnqueteApi/OnqueteApi.csproj" --disable-parallel
-# RUN dotnet publish "./OnqueteApi/OnqueteApi.csproj" -c release -o /app -no-restore
-
-
-# # SERVE 
-# FROM mcr.microsoft.com/dotnet/runtime:6.0-focal
-# WORKDIR /app
-# COPY --from=BUILD /app ./
-
-# EXPOSE 5000
-
-# ENTRYPOINT ["dotnet", "watch"]
-
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
 
-# Copy everything
-COPY . ./
+EXPOSE 80
+EXPOSE 443
+EXPOSE 5500
 
-# Set dev-certs
-RUN dotnet dev-certs https
+FROM mcr.microsoft.com/dotnet.aspnet:6.0 AS build
+WORKDIR /src
+COPY ["onquete-api/OnqueteApi.csproj", "onquete-api/"]
+RUN dotnet restore "OnqueteApi.csproj"
+COPY . .
+WORKDIR "/src/"
+RUN dotnet build "OnqueteApi.csproj" -c Release -o /app/build
 
-# Restore as distinct layers
-RUN dotnet restore
+FROM build as publish
+RUN dotnet publish "OnqueteApi.csproj" -c Release -o /app/publish
 
-# Build and publish a release
-RUN dotnet publish -c Release -o out
+FROM base as final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "OnqueteApi.csproj"]
 
-# Build runtime image
-# FROM mcr.microsoft.com/dotnet/aspnet:6.0
-# WORKDIR /app
-# COPY --from=build-env /app/out .
-# ENTRYPOINT ["dotnet", "OnqueteApi.dll"]
+

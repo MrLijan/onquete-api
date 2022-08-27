@@ -25,6 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<SurveyService>();
+builder.Services.AddScoped<QuestionService>();
 
 var app = builder.Build();
 

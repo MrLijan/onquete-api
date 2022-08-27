@@ -10,7 +10,7 @@ services:
     container_name: onquete-api-app
     ports:
       - 5500:5500
-    command: tail -F anything
+    command: dotnet restore && dotnet watch
     volumes:
       - ../:/app
     networks:
