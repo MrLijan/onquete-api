@@ -40,14 +40,14 @@ namespace OnqueteApi.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] CreateSurveyRequest survey)
+        public async Task<IActionResult> Create([FromBody] NewSurvey survey)
         {
             var newSurvey = await _service.Create(survey);
 
             if (newSurvey is null)
                 return BadRequest("Something went wrong");
 
-            return Ok(newSurvey);
+            return Ok("Survey Created Successfully");
         }
     }
 }

@@ -32,7 +32,7 @@ public class SurveyService
         return await _ctx.surveys.FirstOrDefaultAsync(s => s.Uuid == uuid);
     }
 
-    public async Task<Survey?> Create(CreateSurveyRequest survey)
+    public async Task<Survey?> Create(NewSurvey survey)
     {
         Survey newSurvey = new Survey()
         {
@@ -49,11 +49,8 @@ public class SurveyService
 
         foreach (var question in survey.Questions)
         {
-            question.SurveyId = newSurvey.Id;
-            this._question.Create(question);
+            await this._question.Create(question, newSurvey.Id);
         }
-
-
 
         return newSurvey;
     }

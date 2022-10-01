@@ -53,8 +53,6 @@ namespace OnqueteApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionTypeId");
-
                     b.HasIndex("SurveyId");
 
                     b.HasIndex("Uuid")
@@ -162,19 +160,11 @@ namespace OnqueteApi.Migrations
 
             modelBuilder.Entity("OnqueteApi.Models.Question", b =>
                 {
-                    b.HasOne("OnqueteApi.Models.QuestionType", "QuestionType")
-                        .WithMany()
-                        .HasForeignKey("QuestionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("OnqueteApi.Models.Survey", "Survey")
                         .WithMany("Questions")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("QuestionType");
 
                     b.Navigation("Survey");
                 });
