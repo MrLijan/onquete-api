@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace OnqueteApi.Models;
 
@@ -10,7 +11,9 @@ public class Question : BaseModel
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int SurveyId { get; set; }
+    
+    [JsonIgnore]
     public Survey Survey { get; set; }
+
     public int QuestionTypeId { get; set; }
-    public QuestionType QuestionType { get; set; }
 }
