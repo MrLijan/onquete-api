@@ -8,9 +8,9 @@ public class AppController : ControllerBase
     public AppController() { }
 
     /// <summary> Generates new success response </summary>
-    public ActionResult<AppResponse<object>> Success(string message, object data)
+    public ActionResult<AppResponse<T>> Success<T>(string message, T data)
     {
-        AppResponse<object> response = new AppResponse<object>()
+        AppResponse<T> response = new AppResponse<T>()
         {
             Status = "success",
             Message = message,
