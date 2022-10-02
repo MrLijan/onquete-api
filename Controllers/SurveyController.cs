@@ -8,7 +8,7 @@ namespace OnqueteApi.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class SurveyController : ControllerBase
+    public class SurveyController : AppController
     {
         // consts
         private readonly SurveyService _service;
@@ -39,15 +39,18 @@ namespace OnqueteApi.Controllers
             return Ok(survey);
         }
 
+        /// <summary>
+        /// Create new survey
+        /// </summary>
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] CreateSurveyRequest survey)
+        public async Task<ActionResult<AppResponse<object>>> Create([FromBody] NewSurvey survey)
         {
             var newSurvey = await _service.Create(survey);
 
             if (newSurvey is null)
                 return BadRequest("Something went wrong");
 
-            return Ok(newSurvey);
+            return Success("Survey created successfully", new { Uuid = newSurvey.Uuid });
         }
     }
 }

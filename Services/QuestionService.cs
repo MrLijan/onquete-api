@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using OnqueteApi.Models;
 using OnqueteApi.Data;
 using OnqueteApi.Types;
@@ -30,15 +29,14 @@ public class QuestionService
         return await _ctx.questions.FirstOrDefaultAsync(s => s.Uuid == uuid);
     }
 
-    public async Task<Question?> Create(Question question)
+    public async Task<Question?> Create(NewQuestion question, int surveyId)
     {
         Question newQuestion = new Question()
         {
             Uuid = this.newGuid(),
             Title = question.Title,
             Description = question.Description,
-            QuestionType = question.QuestionType,
-            SurveyId = question.SurveyId
+            SurveyId = surveyId
         };
 
         var action = _ctx.questions.Add(newQuestion);

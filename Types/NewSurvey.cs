@@ -1,19 +1,20 @@
 using System.ComponentModel.DataAnnotations;
-using OnqueteApi.Models;
 
 namespace OnqueteApi.Types;
 
-public class CreateSurveyRequest
+public class NewSurvey
 {
     [Required]
     [StringLength(100)]
-    public string Title { get; set; }
+    public string Title { get; set; } = String.Empty;
+
     [Required]
     [StringLength(100)]
-    public string Description { get; set; }
+    public string Description { get; set; } = String.Empty;
 
     [Required]
     public int AuthorId { get; set; }
 
-    public List<Question> Questions { get; set; }
+    public List<NewQuestion> Questions { get; set; }
 }
+
